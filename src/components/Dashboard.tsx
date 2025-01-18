@@ -15,14 +15,14 @@ export const Dashboard: React.FC = () => {
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold">Google Sheets Dashboard</h1>
+          <h1 className="text-3xl font-bold">React Data Table View</h1>
           <Button variant="outline" onClick={logout}>Logout</Button>
         </div>
 
         <Card>
           <CardHeader>
             <CardTitle className="flex justify-between items-center">
-              Sheet Data
+              Data Table
               {isLoading && (
                 <div className="flex items-center gap-2">
                   <Loader2 className="h-4 w-4 animate-spin" />

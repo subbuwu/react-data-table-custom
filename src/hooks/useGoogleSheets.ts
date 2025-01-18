@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
-const CHUNK_SIZE = 1000;
+const CHUNK_SIZE = 2000;
 
 interface SheetMetadata {
   sheets: Array<{
