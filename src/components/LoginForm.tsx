@@ -1,49 +1,69 @@
-import { useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Eye, EyeOff, User, Lock } from 'lucide-react';
+import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Eye, EyeOff, User, Lock } from "lucide-react";
+import FlickeringGrid from "@/components/ui/flickering-grid";
 
 export const LoginForm: React.FC = () => {
   const { login } = useAuth();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!username || !password) {
-      setError('Please fill in all fields');
+      setError("Please fill in all fields");
       return;
     }
-    
+
     setIsLoading(true);
-    setError('');
-    
+    setError("");
+
     try {
       const success = await login({ username, password });
       if (!success) {
-        setError('Invalid credentials');
+        setError("Invalid credentials");
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      setError("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-4">
-      <div
-      >
+    <div className="min-h-screen relative flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-4">
+      {/* Flickering grid background */}
+      <div className="absolute inset-0 z-0">
+        <FlickeringGrid
+          squareSize={4}
+          gridGap={6}
+          color="#6B7280"
+          maxOpacity={0.5}
+          flickerChance={0.1}
+          className="w-[100%] h-[100%]"
+        />
+      </div>
+
+      {/* Login card */}
+      <div className="relative z-10">
         <Card className="w-[400px] shadow-xl bg-[#FFFFFF]">
           <CardHeader className="space-y-1">
-            <div
-            >
+            <div>
               <CardTitle className="text-2xl font-bold text-center">
                 React Data Table Viewer
               </CardTitle>
@@ -56,8 +76,7 @@ export const LoginForm: React.FC = () => {
           <form onSubmit={handleSubmit}>
             <CardContent className="space-y-4">
               {error && (
-                <div
-                >
+                <div>
                   <Alert variant="destructive" className="mb-4">
                     <AlertDescription>{error}</AlertDescription>
                   </Alert>
@@ -81,7 +100,7 @@ export const LoginForm: React.FC = () => {
                 <div className="relative">
                   <Lock className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                   <Input
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -105,19 +124,14 @@ export const LoginForm: React.FC = () => {
             </CardContent>
 
             <CardFooter>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full relative overflow-hidden transition-all duration-200 hover:shadow-lg"
                 disabled={isLoading}
               >
-                <div
-                >
-                  {isLoading ? 'Logging in...' : 'Login'}
-                </div>
+                <div>{isLoading ? "Logging in..." : "Login"}</div>
                 {isLoading && (
-                  <div 
-                    className="absolute inset-0 flex items-center justify-center"
-                  >
+                  <div className="absolute inset-0 flex items-center justify-center">
                     <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   </div>
                 )}
